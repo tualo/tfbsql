@@ -1,7 +1,5 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
-%global commit 40-CHARACTER-HASH-VALUE
-%global gittag GIT-TAG
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global gittag v1.0.0a
 
 Summary:      tualo frontbase for php7
 Name:         tfbsql
