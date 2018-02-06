@@ -18,19 +18,21 @@ tfbsql is a not complete replacement of the missing frontbase module for php7.
 
 ## install php-cpp
 
-  git clone https://github.com/CopernicaMarketingSoftware/PHP-CPP.git
-  cd PHP-CPP
-  make
-  make install
+
+    git clone https://github.com/CopernicaMarketingSoftware/PHP-CPP.git
+    cd PHP-CPP
+    make
+    make install
 
 
 ## build
 
 
-  git clone https://github.com/tualo/tfbsql.git
-  cd tfbsql
-  make
+    git clone https://github.com/tualo/tfbsql.git
+    cd tfbsql
+    make
 
 ## install
 
-  make install
+
+    make install
