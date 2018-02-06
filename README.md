@@ -1,6 +1,6 @@
 # tfbsql
 
-tfbsql is as not complete replacesment for the missing frontbase module for php7.
+tfbsql is a not complete replacement of the missing frontbase module for php7.
 
 ## included functions
 
