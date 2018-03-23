@@ -36,25 +36,6 @@ NAME=tfbsql
 #OVER_SIXTEEN  := $(shell echo "${UBUNTU_MAJOR} >= 16" | bc)
 #OVER_FOURTEEN := $(shell echo "${UBUNTU_MAJOR} >= 14" | bc)
 
-ifneq ($(wildcard /etc/php/7.0/mods-available/.),)
-INI_DIR=/etc/php/7.0/mods-available/
-else
-ifneq ($(wildcard /etc/php5/mods-available/.),)
-INI_DIR=/etc/php5/mods-available/
-else
-INI_DIR=/etc/php5/conf.d/
-endif
-endif
-
-
-#ifeq (${OVER_SIXTEEN}, 1)
-#    INI_DIR     =   /etc/php/7.0/mods-available/
-#else ifeq (${OVER_FOURTEEN}, 1)
-#    INI_DIR     =   /etc/php5/mods-available/
-#else
-#    INI_DIR     =   /etc/php5/conf.d/
-#endif
-
 #
 #   The extension dirs
 #
@@ -64,7 +45,13 @@ endif
 #   this with a different fixed directory
 #
 
-EXTENSION_DIR=$(shell php-config --extension-dir)
+ifdef INSTALL_ROOT
+  EXTENSION_DIR=${INSTALL_ROOT}/$(shell php-config --extension-dir)
+  INI_DIR=${INSTALL_ROOT}/etc/php7/conf.d/
+else
+  EXTENSION_DIR=$(shell php-config --extension-dir)
+  INI_DIR=/etc/php7/conf.d/
+endif
 
 #
 #   The name of the extension and the name of the .ini file
@@ -146,7 +133,9 @@ ${OBJECTS}:
 	${COMPILER} ${COMPILER_FLAGS} $@ ${@:%.o=%.cpp}
 
 install:
+	${MKDIR} ${EXTENSION_DIR}
 	${CP} ${EXTENSION} ${EXTENSION_DIR}
+	${MKDIR} ${INI_DIR}
 	${CP} ${INI} ${INI_DIR}
 
 clean:
