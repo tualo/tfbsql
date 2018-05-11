@@ -61,6 +61,8 @@ void tfbsql_test()
 
 
 Php::Value fbsql_connect(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_connect " << std::endl;
 
   TFBSQLLinkWrapper* lw = new TFBSQLLinkWrapper();
   if (parameters.size()>0){
@@ -83,15 +85,24 @@ Php::Value fbsql_connect(Php::Parameters &parameters){
   Php::out << "fbsql_connect " << std::endl
     << " lw->hostName " << lw->hostName << std::endl
     << " lw->userName " << lw->userName << std::endl
-    << " lw->userPassword " << lw->userPassword << std::endl;
+    << " lw->userPassword " << lw->userPassword << std::endl
+    << " lw->databasePassword " << lw->databasePassword << std::endl
+    << " lw->databaseName " << lw->databaseName << std::endl;
 
 
+  Php::Value obj = Php::Object("TFBSQLLinkWrapper", lw);
+  TFBSQLLinkWrapper* lx=(TFBSQLLinkWrapper *)obj.implementation();
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_connect X " << std::endl
+    << " lx->hostName " << lx->hostName << std::endl;
 
-  return Php::Object("TFBSQLLinkWrapper", lw);
+  return obj;
 }
 
 
 Php::Value fbsql_database(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_database " << std::endl;
 
   Php::Value linkValue=parameters[0];
   TFBSQLLinkWrapper* lw=(TFBSQLLinkWrapper *)linkValue.implementation();
@@ -101,7 +112,7 @@ Php::Value fbsql_database(Php::Parameters &parameters){
   }
 
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_connect " << std::endl
+  Php::out << "fbsql_database " << std::endl
     << " lw->hostName " << lw->hostName << std::endl
     << " lw->userName " << lw->userName << std::endl
     << " lw->userPassword " << lw->userPassword << std::endl
@@ -114,19 +125,50 @@ Php::Value fbsql_database(Php::Parameters &parameters){
 
 
 Php::Value fbsql_database_password(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_database_password 1 " << std::endl;
+
   Php::Value linkValue=parameters[0];
+
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_database_password 2 " << std::endl;
+
+
   TFBSQLLinkWrapper* lw=(TFBSQLLinkWrapper *)linkValue.implementation();
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_database_password 3 size" << parameters.size() << " v" << parameters[1].stringValue() << "." << std::endl;
+
+
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_database_password " << std::endl
+    << " lw->hostName " << lw->hostName << std::endl
+    << " lw->userName " << lw->userName << std::endl
+    << " lw->userPassword " << lw->userPassword << std::endl
+    << " lw->databaseName " << lw->databaseName << std::endl;
+
 
   if (parameters.size()>1){
     lw->databasePassword         = parameters[1].stringValue();
   }else{
 
   }
+
+  if (TFBSQL_DEBUG)
+  Php::out << "databasePassword " << std::endl
+    << " lw->hostName " << lw->hostName << std::endl
+    << " lw->userName " << lw->userName << std::endl
+    << " lw->userPassword " << lw->userPassword << std::endl
+    << " lw->databaseName " << lw->databaseName << std::endl;
+
+
   return lw->databasePassword;
 }
 
 
 void fbsql_set_transaction(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_set_transaction " << std::endl;
+
   Php::Value linkValue=parameters[0];
 
   int Locking =parameters[1];
@@ -157,6 +199,9 @@ void fbsql_set_transaction(Php::Parameters &parameters){
 
 
 Php::Value fbsql_db_query(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_db_query " << std::endl;
+
   std::string dnname = parameters[0];
   std::string command = parameters[1];
   Php::Value linkValue=parameters[2];
@@ -265,6 +310,8 @@ Php::Value fbsql_db_query(Php::Parameters &parameters){
 }
 
 Php::Value fbsql_free_result(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_free_result " << std::endl;
   Php::Value resultValue=parameters[0];
   TFBSQLResultWrapper* rw=(TFBSQLResultWrapper *)resultValue.implementation();
   if (rw->resultmetaData){
@@ -275,6 +322,8 @@ Php::Value fbsql_free_result(Php::Parameters &parameters){
 }
 
 Php::Value fbsql_fetch_array(Php::Parameters &parameters){
+  if (TFBSQL_DEBUG)
+  Php::out << "fbsql_fetch_array " << std::endl;
   Php::Array return_value;
   Php::Value resultValue=parameters[0];
   int result_type = FBSQL_NUM;

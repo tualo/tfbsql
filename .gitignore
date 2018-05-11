@@ -3,3 +3,4 @@ tfbsql.so
 env.sh
 config.m4
 build.sh
+Main.o
