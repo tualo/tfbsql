@@ -6,7 +6,7 @@
 
 #include <php.h>
 
-#define TFBSQL_DEBUG 0
+#define TFBSQL_DEBUG 1
 
 #define FBSQL_ASSOC		1<<0
 #define FBSQL_NUM		1<<1
@@ -52,6 +52,7 @@ public:
       userName="_system";
       databasePassword="";
       databaseName="";
+      errorText=NULL;
 
 
       errorNo=0;
@@ -83,17 +84,17 @@ public:
     void  open(){
 
     	FBCMetaData* md;
-Php::out << "fbsql open " << std::endl;
+  Php::out <<"" ;//Php::out << "fbsql open " << std::endl;
       if (!connected){
         int port = atoi(databaseName.c_str());
-Php::out << "fbsql port " << port << std::endl;
+  Php::out <<"" ;//Php::out << "fbsql port " << port << std::endl;
         if (port>0 && port<65535) // strange behavior from old fbsql module!
           connection = fbcdcConnectToDatabaseUsingPort( hostName.c_str(), port,  databasePassword.c_str());
         else
           connection = fbcdcConnectToDatabase(databaseName.c_str(), hostName.c_str(), databasePassword.c_str());
 
 
-Php::out << "fbsql connection " << connection << std::endl;
+  Php::out <<"" ;//Php::out << "fbsql connection " << connection << std::endl;
 
         if (connection == NULL)
         {
@@ -102,7 +103,7 @@ Php::out << "fbsql connection " << connection << std::endl;
         }else{
 
           md = fbcdcCreateSession(connection, (char*)"PHP", userName.c_str(), userPassword.c_str(), userName.c_str());
-Php::out << "fbsql fbcdcCreateSession " << md << std::endl;
+  Php::out <<"" ;//Php::out << "fbsql fbcdcCreateSession " << md << std::endl;
 
       		if (fbcmdErrorsFound(md))
       		{

@@ -7,6 +7,10 @@ int mdOk(TFBSQLLinkWrapper* link, FBCMetaData* md, char* sql)
 	//FBCDatabaseConnection* c = link->connection;
 	int result = 1;
   link->errorNo = 0;
+
+  link->errorText = NULL;
+
+
 	if (link->errorText)
 	{
     free(link->errorText);
@@ -62,7 +66,7 @@ void tfbsql_test()
 
 Php::Value fbsql_connect(Php::Parameters &parameters){
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_connect " << std::endl;
+  Php::out <<"" ; //<< "fbsql_connect " << std::endl;
 
   TFBSQLLinkWrapper* lw = new TFBSQLLinkWrapper();
   if (parameters.size()>0){
@@ -82,27 +86,33 @@ Php::Value fbsql_connect(Php::Parameters &parameters){
   }
 
   if (TFBSQL_DEBUG)
+  Php::out <<"" ;
+/*
   Php::out << "fbsql_connect " << std::endl
     << " lw->hostName " << lw->hostName << std::endl
     << " lw->userName " << lw->userName << std::endl
     << " lw->userPassword " << lw->userPassword << std::endl
     << " lw->databasePassword " << lw->databasePassword << std::endl
     << " lw->databaseName " << lw->databaseName << std::endl;
-
+*/
 
   Php::Value obj = Php::Object("TFBSQLLinkWrapper", lw);
   TFBSQLLinkWrapper* lx=(TFBSQLLinkWrapper *)obj.implementation();
+
   if (TFBSQL_DEBUG)
+  Php::out <<"" ;
+/*
   Php::out << "fbsql_connect X " << std::endl
     << " lx->hostName " << lx->hostName << std::endl;
-
+*/
   return obj;
 }
 
 
 Php::Value fbsql_database(Php::Parameters &parameters){
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_database " << std::endl;
+Php::out <<"" ;
+//  Php::out << "fbsql_database " << std::endl;
 
   Php::Value linkValue=parameters[0];
   TFBSQLLinkWrapper* lw=(TFBSQLLinkWrapper *)linkValue.implementation();
@@ -112,12 +122,14 @@ Php::Value fbsql_database(Php::Parameters &parameters){
   }
 
   if (TFBSQL_DEBUG)
+Php::out <<"" ;
+/*
   Php::out << "fbsql_database " << std::endl
     << " lw->hostName " << lw->hostName << std::endl
     << " lw->userName " << lw->userName << std::endl
     << " lw->userPassword " << lw->userPassword << std::endl
     << " lw->databaseName " << lw->databaseName << std::endl;
-
+*/
   lw->open();
 
   return lw->databaseName;
@@ -125,27 +137,29 @@ Php::Value fbsql_database(Php::Parameters &parameters){
 
 
 Php::Value fbsql_database_password(Php::Parameters &parameters){
-  if (TFBSQL_DEBUG)
-  Php::out << "fbsql_database_password 1 " << std::endl;
+//  if (TFBSQL_DEBUG)
+//  Php::out << "fbsql_database_password 1 " << std::endl;
 
   Php::Value linkValue=parameters[0];
 
-  if (TFBSQL_DEBUG)
-  Php::out << "fbsql_database_password 2 " << std::endl;
+//  if (TFBSQL_DEBUG)
+//  Php::out << "fbsql_database_password 2 " << std::endl;
 
 
   TFBSQLLinkWrapper* lw=(TFBSQLLinkWrapper *)linkValue.implementation();
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_database_password 3 size" << parameters.size() << " v" << parameters[1].stringValue() << "." << std::endl;
+  Php::out <<"" ;
+//  Php::out << "fbsql_database_password 3 size" << parameters.size() << " v" << parameters[1].stringValue() << "." << std::endl;
 
 
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_database_password " << std::endl
+  Php::out <<"" ;
+/*  Php::out << "fbsql_database_password " << std::endl
     << " lw->hostName " << lw->hostName << std::endl
     << " lw->userName " << lw->userName << std::endl
     << " lw->userPassword " << lw->userPassword << std::endl
     << " lw->databaseName " << lw->databaseName << std::endl;
-
+*/
 
   if (parameters.size()>1){
     lw->databasePassword         = parameters[1].stringValue();
@@ -154,12 +168,14 @@ Php::Value fbsql_database_password(Php::Parameters &parameters){
   }
 
   if (TFBSQL_DEBUG)
+  Php::out <<"" ;
+/*
   Php::out << "databasePassword " << std::endl
     << " lw->hostName " << lw->hostName << std::endl
     << " lw->userName " << lw->userName << std::endl
     << " lw->userPassword " << lw->userPassword << std::endl
     << " lw->databaseName " << lw->databaseName << std::endl;
-
+*/
 
   return lw->databasePassword;
 }
@@ -167,7 +183,8 @@ Php::Value fbsql_database_password(Php::Parameters &parameters){
 
 void fbsql_set_transaction(Php::Parameters &parameters){
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_set_transaction " << std::endl;
+  Php::out <<"" ;
+//  Php::out << "fbsql_set_transaction " << std::endl;
 
   Php::Value linkValue=parameters[0];
 
@@ -200,7 +217,8 @@ void fbsql_set_transaction(Php::Parameters &parameters){
 
 Php::Value fbsql_db_query(Php::Parameters &parameters){
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_db_query " << std::endl;
+  Php::out <<"" ;
+//  Php::out << "fbsql_db_query " << std::endl;
 
   std::string dnname = parameters[0];
   std::string command = parameters[1];
@@ -215,20 +233,24 @@ Php::Value fbsql_db_query(Php::Parameters &parameters){
 	unsigned int   sR = 1, cR = 0;
 
   //Php::out <<  (char*)command.c_str() << std::endl;
+
   meta = fbcdcExecuteDirectSQL(lw->connection, (char*)command.c_str() );
   //meta = fbcdcExecuteDirectSQLWithLength(lw->connection, (char*)command.c_str(), sizeof((char*)command.c_str()) );
 
   if (TFBSQL_DEBUG)
-  Php::out << "query executed " << std::endl;
-
+  Php::out <<"" ;
+//  Php::out << "query executed " << std::endl;
 	if (!mdOk(lw, meta, (char*)command.c_str()))
 	{
 		fbcmdRelease(meta);
     if (TFBSQL_DEBUG)
-    Php::out << "query executed  FAILED " << std::endl;
+  Php::out <<"" ;
+//    Php::out << "query executed  FAILED " << std::endl;
     return false;
 	}
 	else {
+
+
 		if (fbcmdHasMetaDataArray(meta)) {
 			sR = fbcmdMetaDataArrayCount(meta);
 			md = (FBCMetaData*)fbcmdMetaDataAtIndex(meta, cR);
@@ -238,7 +260,8 @@ Php::Value fbsql_db_query(Php::Parameters &parameters){
 
 
     if (TFBSQL_DEBUG)
-    Php::out << "query executed successfully " << std::endl;
+  Php::out <<"" ;
+//    Php::out << "query executed successfully " << std::endl;
 
 		tp = fbcmdStatementType(md);
 		if (tp == NULL) {
@@ -264,25 +287,25 @@ Php::Value fbsql_db_query(Php::Parameters &parameters){
       if (tp[0] != 'E')
 			{
         if (TFBSQL_DEBUG)
-        Php::out << "columnCount " << fbcmdColumnCount(md) << std::endl;
+  Php::out <<"" ;//        Php::out << "columnCount " << fbcmdColumnCount(md) << std::endl;
         if (TFBSQL_DEBUG)
-        Php::out << "fetchHandle " << fh << std::endl;
+  Php::out <<"" ;//        Php::out << "fetchHandle " << fh << std::endl;
         if (TFBSQL_DEBUG)
-        Php::out << "tp " << tp << std::endl;
+  Php::out <<"" ;//        Php::out << "tp " << tp << std::endl;
 
         rw->columnCount = fbcmdColumnCount(md);
         rw->fetchHandle = fh;
         rw->rowCount = fbcmdRowCount(md);
 
         if (TFBSQL_DEBUG)
-        Php::out << "rowCount " << rw->rowCount << std::endl;
+  Php::out <<"" ;//        Php::out << "rowCount " << rw->rowCount << std::endl;
 
 			}
 			else
 			{
         char* r = fbcmdMessage(md);
         if (TFBSQL_DEBUG)
-        Php::out << "fbcmdMessage " << r << std::endl;
+        Php::out <<"" ;//  Php::out << "fbcmdMessage " << r << std::endl;
         if ((rw->list = fbcplParse(r)))
         {
           rw->rowCount = fbcplCount(rw->list);
@@ -311,7 +334,7 @@ Php::Value fbsql_db_query(Php::Parameters &parameters){
 
 Php::Value fbsql_free_result(Php::Parameters &parameters){
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_free_result " << std::endl;
+  Php::out <<"" ;//  Php::out << "fbsql_free_result " << std::endl;
   Php::Value resultValue=parameters[0];
   TFBSQLResultWrapper* rw=(TFBSQLResultWrapper *)resultValue.implementation();
   if (rw->resultmetaData){
@@ -323,7 +346,7 @@ Php::Value fbsql_free_result(Php::Parameters &parameters){
 
 Php::Value fbsql_fetch_array(Php::Parameters &parameters){
   if (TFBSQL_DEBUG)
-  Php::out << "fbsql_fetch_array " << std::endl;
+  Php::out <<"" ;//  Php::out << "fbsql_fetch_array " << std::endl;
   Php::Array return_value;
   Php::Value resultValue=parameters[0];
   int result_type = FBSQL_NUM;
@@ -339,7 +362,7 @@ Php::Value fbsql_fetch_array(Php::Parameters &parameters){
     Php::warning << (char*)"Illegal result type use FBSQL_NUM, FBSQL_ASSOC, or FBSQL_BOTH" << std::flush;
     return false;
   }
-
+   
 
   FBCRow* row = fbcmdFetchRow(rw->resultmetaData);
   if (row==NULL){
@@ -351,6 +374,7 @@ Php::Value fbsql_fetch_array(Php::Parameters &parameters){
         return_value[i] = nullptr;
       }else{
 
+        const FBCColumnMetaData *column_meta;
         const FBCDatatypeMetaData *dtmd = fbcmdDatatypeMetaDataAtIndex(rw->resultmetaData, i);
         unsigned dtc = fbcdmdDatatypeCode(dtmd);
         if ( (dtc==FB_Character)
@@ -386,6 +410,12 @@ Php::Value fbsql_fetch_array(Php::Parameters &parameters){
         }else{
           return_value[i] = nullptr;
         }
+
+        //char* key = (char*)fbcplKeyAtIndex(rw->list, i);
+        column_meta = fbcmdColumnMetaDataAtIndex(rw->resultmetaData, i);
+        return_value[std::string(fbccmdLabelName(column_meta))] = return_value[i];
+        
+
       }
 
     }
